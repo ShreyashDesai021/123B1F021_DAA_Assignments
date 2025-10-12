@@ -16,7 +16,7 @@ class OrderRecord {
     }
 }
 
-public class OrderSorter {
+public class Assignment1{
 
     // Recursive merge sort function
     public static void sortOrders(OrderRecord[] records, int start, int end) {

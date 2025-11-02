@@ -1,11 +1,12 @@
-//ASSIGNMENT 1:
-//        Design and implement a sorting algorithm using Merge Sort to efficiently arrange customer
-//        orders based on their timestamps. The solution should handle a large dataset (up to 1 million
-//        orders) with minimal computational overhead. Additionally, analyze the time complexity and
-//        compare it with traditional sorting techniques.
-//
-//        CODE:
+/*
+ASSIGNMENT 1:
+PROBLEM STATEMENT:
+Design and implement a sorting algorithm using Merge Sort to efficiently arrange customer orders based on their timestamps.
+The solution should handle a large dataset (up to 1 million orders) with minimal computational overhead.
+Additionally, analyze the time complexity and compare it with traditional sorting techniques.
+*/
 
+//SOLUTION:
 class OrderRecord {
     String id;
     long orderTime;
@@ -16,7 +17,7 @@ class OrderRecord {
     }
 }
 
-public class Assignment1{
+public class Assignment1 {
 
     // Recursive merge sort function
     public static void sortOrders(OrderRecord[] records, int start, int end) {

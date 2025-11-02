@@ -3,8 +3,8 @@ ASSIGNMENT 3:
 PROBLEM STATEMENT:
 Scenario: Emergency Relief Supply Distribution
 A devastating flood has hit multiple villages in a remote area, and the government, along
-with NGOs, is organizing an emergency relief operation. A rescue team has a limited-
-capacity boat that can carry a maximum weight of W kilograms. The boat must transport
+with NGOs, is organizing an emergency relief operation. A rescue team has a limited-capacity
+boat that can carry a maximum weight of W kilograms. The boat must transport
 critical supplies, including food, medicine, and drinking water, from a relief center to the
 affected villages.
 Each type of relief item has:
@@ -23,120 +23,115 @@ supplies transported.
 //SOLUTION:
 import java.util.*;
 
-class ReliefItem {
-    String itemName;
-    double weightKg;
-    double importance;    // Utility value
-    boolean canDivide;    // Whether partial loading is allowed
+class Items {
+    String name;
+    double weight;
+    double utility;
+    boolean divisible;
 
-    public ReliefItem(String itemName, double weightKg, double importance, boolean canDivide) {
-        this.itemName = itemName;
-        this.weightKg = weightKg;
-        this.importance = importance;
-        this.canDivide = canDivide;
+    Items(String name, double weight, double utility, boolean divisible) {
+        this.name = name;
+        this.weight = weight;
+        this.utility = utility;
+        this.divisible = divisible;
     }
 
-    // Calculate importance per kg
-    public double importancePerKg() {
-        return importance / weightKg;
+    double utilityPerKg() {
+        return utility / weight;
     }
 }
 
 public class Assignment3 {
 
     public static void main(String[] args) {
-        Scanner input = new Scanner(System.in);
+        Scanner sc = new Scanner(System.in);
 
-        System.out.println("=== Emergency Relief Supply Distribution ===");
+        System.out.println("=== Emergency Relief Supply Loading ===");
 
-        // Input number of items
         System.out.print("Enter number of relief items: ");
-        int itemCount = input.nextInt();
-        input.nextLine(); // Consume newline
+        int n = sc.nextInt();
+        sc.nextLine();
 
-        if (itemCount <= 0) {
+        if (n <= 0) {
             System.out.println("No items to load. Exiting.");
-            input.close();
+            sc.close();
             return;
         }
 
-        List<ReliefItem> supplies = new ArrayList<>();
+        List<Items> items = new ArrayList<>();
 
-        // Input item details
-        for (int i = 0; i < itemCount; i++) {
+        for (int i = 0; i < n; i++) {
             System.out.println("\nItem #" + (i + 1));
 
             System.out.print("Name: ");
-            String name = input.nextLine();
+            String name = sc.nextLine();
 
             System.out.print("Weight (kg): ");
-            double weight = input.nextDouble();
+            double weight = sc.nextDouble();
             if (weight <= 0) {
                 System.out.println("Invalid weight. Must be > 0. Exiting.");
-                input.close();
+                sc.close();
                 return;
             }
 
-            System.out.print("Importance Value: ");
-            double value = input.nextDouble();
-            if (value < 0) {
-                System.out.println("Invalid importance. Must be >= 0. Exiting.");
-                input.close();
+            System.out.print("Utility Value: ");
+            double utility = sc.nextDouble();
+            if (utility < 0) {
+                System.out.println("Invalid utility. Must be >= 0. Exiting.");
+                sc.close();
                 return;
             }
 
             System.out.print("Divisible? (1 = yes, 0 = no): ");
-            boolean divisible = input.nextInt() == 1;
-            input.nextLine(); // consume newline
+            boolean divisible = sc.nextInt() == 1;
+            sc.nextLine(); // consume newline
 
-            supplies.add(new ReliefItem(name, weight, value, divisible));
+            items.add(new Items(name, weight, utility, divisible));
         }
 
-        // Input boat capacity
         System.out.print("\nEnter boat capacity (kg): ");
-        double boatCapacity = input.nextDouble();
-        if (boatCapacity <= 0) {
+        double capacity = sc.nextDouble();
+        if (capacity <= 0) {
             System.out.println("Boat capacity must be > 0. Exiting.");
-            input.close();
+            sc.close();
             return;
         }
 
-        long startTime = System.nanoTime();
+        long start = System.nanoTime();
 
-        // Sort items by importance per kg descending
-        supplies.sort((a, b) -> Double.compare(b.importancePerKg(), a.importancePerKg()));
+        // Fractional Knapsack
+        // Sort items by utility per kg in descending order
+        items.sort((a, b) -> Double.compare(b.utilityPerKg(), a.utilityPerKg()));
 
-        double totalImportance = 0;
-        double remainingCapacity = boatCapacity;
+        double totalUtility = 0;
+        double remainingCapacity = capacity;
 
-        System.out.println("\n=== Supplies Loaded on Boat ===");
+        System.out.println("\nItems loaded on boat:");
 
-        for (ReliefItem item : supplies) {
+        for (Items item : items) {
             if (remainingCapacity <= 0) break; // boat full
 
-            if (item.canDivide) {
-                double loadWeight = Math.min(item.weightKg, remainingCapacity);
-                double loadImportance = item.importancePerKg() * loadWeight;
-                totalImportance += loadImportance;
-                remainingCapacity -= loadWeight;
+            if (item.divisible) {
+                double takenWeight = Math.min(item.weight, remainingCapacity);
+                double takenUtility = item.utilityPerKg() * takenWeight;
+                totalUtility += takenUtility;
+                remainingCapacity -= takenWeight;
 
-                System.out.printf(" - %s: %.2f kg, Importance: %.2f%n", item.itemName, loadWeight, loadImportance);
+                System.out.printf(" - %s: %.2f kg, Utility: %.2f%n", item.name, takenWeight, takenUtility);
             } else {
-                if (item.weightKg <= remainingCapacity) {
-                    totalImportance += item.importance;
-                    remainingCapacity -= item.weightKg;
-
-                    System.out.printf(" - %s: %.2f kg, Importance: %.2f%n", item.itemName, item.weightKg, item.importance);
+                if (item.weight <= remainingCapacity) {
+                    totalUtility += item.utility;
+                    remainingCapacity -= item.weight;
+                    System.out.printf(" - %s: %.2f kg, Utility: %.2f%n", item.name, item.weight, item.utility);
                 }
             }
         }
 
-        System.out.printf("\nTotal importance carried: %.2f%n", totalImportance);
+        System.out.printf("\nTotal utility carried: %.2f%n", totalUtility);
 
-        long endTime = System.nanoTime();
-        System.out.printf("Execution time: %.3f ms%n", (endTime - startTime) / 1_000_000.0);
+        long end = System.nanoTime();
+        System.out.printf("Execution time: %.3f ms%n", (end - start) / 1_000_000.0);
 
-        input.close();
+        sc.close();
     }
 }
-

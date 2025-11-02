@@ -1,4 +1,5 @@
 /*
+ASSIGNMENT 6:
 PROBLEM STATEMENT:
 Scenario: Disaster Relief Resource Allocation
 A massive earthquake has struck a remote region, and a relief organization is transporting
@@ -21,7 +22,7 @@ Extend the model to consider multiple trucks or real-time decision-making for dy
 chain management.
 */
 
-//SOLUTION
+//SOLUTION:
 import java.util.*;
 
 class Item {

@@ -1,0 +1,27 @@
+===== CUSTOMER ORDERS BEFORE SORTING =====
+Order ID: ORD01 | Timestamp: 1700000100000
+Order ID: ORD02 | Timestamp: 1699999999000
+Order ID: ORD03 | Timestamp: 1700000200000
+Order ID: ORD04 | Timestamp: 1699999950000
+Order ID: ORD05 | Timestamp: 1700000300000
+Order ID: ORD06 | Timestamp: 1700000000000
+Order ID: ORD07 | Timestamp: 1699999900000
+Order ID: ORD08 | Timestamp: 1700000500000
+Order ID: ORD09 | Timestamp: 1699999850000
+Order ID: ORD10 | Timestamp: 1700000400000
+
+===== CUSTOMER ORDERS AFTER SORTING BY TIMESTAMP =====
+Order ID: ORD09 | Timestamp: 1699999850000
+Order ID: ORD07 | Timestamp: 1699999900000
+Order ID: ORD04 | Timestamp: 1699999950000
+Order ID: ORD02 | Timestamp: 1699999999000
+Order ID: ORD06 | Timestamp: 1700000000000
+Order ID: ORD01 | Timestamp: 1700000100000
+Order ID: ORD03 | Timestamp: 1700000200000
+Order ID: ORD05 | Timestamp: 1700000300000
+Order ID: ORD10 | Timestamp: 1700000400000
+Order ID: ORD08 | Timestamp: 1700000500000
+
+Time Taken: 0.018 ms
+
+Process finished with exit code 0
